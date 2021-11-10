@@ -1,1 +1,14 @@
-<p>listitem works!</p>
+<div *ngIf="timer">
+  <p>{{ timer.state }}</p>
+  <p>{{ timer.created }}</p>
+  <p>{{ timer.timeSpentRunning }}</p>
+  <button (click)="startStopTimer(timer)">
+    {{
+      timer.state === "notStarted"
+        ? "start"
+        : timer.state === "done"
+        ? "done"
+        : "stop"
+    }}
+  </button>
+</div>

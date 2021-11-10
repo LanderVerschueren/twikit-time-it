@@ -1,1 +1,3 @@
-<p>list works!</p>
+<div *ngFor="let timer of timers" class="timer-container">
+  <app-listitem [timer]="timer"></app-listitem>
+</div>
