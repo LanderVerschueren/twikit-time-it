@@ -1,14 +1,17 @@
-<div *ngIf="timer">
-  <p>{{ timer.state }}</p>
-  <p>{{ timer.created }}</p>
-  <p>{{ timer.timeSpentRunning }}</p>
-  <button (click)="startStopTimer(timer)">
-    {{
-      timer.state === "notStarted"
-        ? "start"
-        : timer.state === "done"
-        ? "done"
-        : "stop"
-    }}
+<div *ngIf="timer" class="list-element">
+  <button
+    id="basic"
+    type="button"
+    mat-raised-button
+    color="{{ getColor(timer) }}"
+    (click)="startStopTimer(timer)"
+    [disabled]="timer.state === 'done'"
+    class="button"
+  >
+    <span>{{ getButtonText(timer.state) }}</span>
+    <mat-icon class="icon">{{ getButtonIcon(timer.state) }}</mat-icon>
   </button>
+  <!-- <p>{{ timer.state }}</p> -->
+  <!-- <p>{{ timer.created }}</p> -->
+  <p>{{ timer.timeSpentRunning }} Sec</p>
 </div>

@@ -1,0 +1,14 @@
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}

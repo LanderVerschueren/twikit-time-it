@@ -1,3 +1,30 @@
-<div *ngFor="let timer of timers" class="timer-container">
-  <app-listitem [timer]="timer"></app-listitem>
+<div class="timer-container">
+  <div *ngIf="shouldShowControls(timers)" class="list-controls">
+    <button
+      (click)="emitSort.emit()"
+      class="button"
+      id="basic"
+      type="button"
+      mat-raised-button
+    >
+      <span>sort timers</span
+      ><mat-icon class="sort-icon {{ sortDirection }}">arrow_downward</mat-icon>
+    </button>
+    <button
+      (click)="emitReset.emit()"
+      class="button"
+      id="basic"
+      type="button"
+      mat-raised-button
+    >
+      <span>restart</span>
+      <mat-icon class="refresh-icon">refresh</mat-icon>
+    </button>
+  </div>
+  <div *ngFor="let timer of timers">
+    <app-listitem
+      (emitTimerToStart)="emitTimerToStart.emit($event)"
+      [timer]="timer"
+    ></app-listitem>
+  </div>
 </div>

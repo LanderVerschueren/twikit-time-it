@@ -7,6 +7,9 @@ import { TimerComponent } from './timer/timer.component';
 import { ButtonComponent } from './components/button/button.component';
 import { ListComponent } from './components/list/list.component';
 import { ListitemComponent } from './components/listitem/listitem.component';
+import { MatButtonModule } from '@angular/material/button';
+
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -14,13 +17,15 @@ import { ListitemComponent } from './components/listitem/listitem.component';
     TimerComponent,
     ButtonComponent,
     ListComponent,
-    ListitemComponent
+    ListitemComponent,
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,1 +1,10 @@
-<app-list [timers]="timers" (startStopTimer)="startStop($event)"></app-list>
+<div class="timer-container">
+  <div class="title"><h1>Twikit Time-it</h1></div>
+  <app-list
+    [timers]="getAllTimers()"
+    (emitTimerToStart)="startStop($event)"
+    (emitReset)="resetTimers()"
+    (emitSort)="toggleSorting()"
+    [sortDirection]="sortDirection"
+  ></app-list>
+</div>
