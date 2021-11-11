@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { ETimerState, Timer } from '../interfaces';
-import { addTimer, resetTimers } from '../store/timers/timers.actions';
+import { ETimerState, Timer } from '../../interfaces';
+import { addTimer, resetTimers } from '../../store/timers/timers.actions';
 
 @Component({
   selector: 'app-timer',
@@ -17,7 +17,7 @@ export class TimerComponent implements OnInit {
   };
   // spread operator to make sure the template is not adjusted
   newTimer: Timer = { ...this.timerTemplate };
-  oldTimers: Array<Timer> = [];
+  storedTimers: Array<Timer> = [];
   // Should be type NodeJS.Timeout
   currentInterval: any;
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -27,7 +27,7 @@ export class TimerComponent implements OnInit {
   constructor(private store: Store<{ timers: Array<Timer> }>) {
     this.timerSubscription = store
       .pipe(select('timers'))
-      .subscribe((data: any) => (this.oldTimers = data));
+      .subscribe((data) => (this.storedTimers = data));
   }
 
   ngOnInit(): void {}
@@ -71,9 +71,10 @@ export class TimerComponent implements OnInit {
   };
 
   toggleSorting = () => {
+    const arrayToSort = [...this.storedTimers];
     if (this.sortDirection === 'asc') {
       this.sortDirection = 'desc';
-      this.oldTimers.sort((a, b) => {
+      arrayToSort.sort((a, b) => {
         if (a.created && b.created) {
           return b.created.getTime() - a.created.getTime();
         }
@@ -82,7 +83,7 @@ export class TimerComponent implements OnInit {
       });
     } else {
       this.sortDirection = 'asc';
-      this.oldTimers.sort((a, b) => {
+      arrayToSort.sort((a, b) => {
         if (a.created && b.created) {
           return a.created.getTime() - b.created.getTime();
         }
@@ -90,9 +91,11 @@ export class TimerComponent implements OnInit {
         return 0;
       });
     }
+
+    this.storedTimers = [...arrayToSort];
   };
 
   getAllTimers = () => {
-    return [...this.oldTimers, this.newTimer];
+    return [...this.storedTimers, this.newTimer];
   };
 }

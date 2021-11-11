@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { Timer } from '../../interfaces';
 
 export const getTimers = createAction(
-  '[Timers] Get Timers',
+  '[Timers]: Get Timers',
   props<{ timers: Array<Timer> }>()
 );
 
