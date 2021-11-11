@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { ETimerState, Timer } from '../interfaces';
+import { addTimer, resetTimers } from '../store/timers/timers.actions';
 
 @Component({
   selector: 'app-timer',
@@ -15,16 +18,23 @@ export class TimerComponent implements OnInit {
   // spread operator to make sure the template is not adjusted
   newTimer: Timer = { ...this.timerTemplate };
   oldTimers: Array<Timer> = [];
-  timers: Array<Timer> = [...this.oldTimers, this.newTimer];
+  // Should be type NodeJS.Timeout
   currentInterval: any;
   sortDirection: 'asc' | 'desc' = 'asc';
+  timerSubscription: Subscription;
 
-  constructor() {}
+  //   add store interface to interface file.
+  constructor(private store: Store<{ timers: Array<Timer> }>) {
+    this.timerSubscription = store
+      .pipe(select('timers'))
+      .subscribe((data: any) => (this.oldTimers = data));
+  }
 
   ngOnInit(): void {}
 
   ngOnDestroy() {
     clearInterval(this.currentInterval);
+    this.timerSubscription.unsubscribe();
   }
 
   startStop(timer: Timer) {
@@ -45,13 +55,11 @@ export class TimerComponent implements OnInit {
 
   stopTimer = () => {
     clearInterval(this.currentInterval);
-    this.oldTimers.push({
-      ...this.newTimer,
-      state: ETimerState.Done,
-    });
+    this.store.dispatch(
+      addTimer({ timer: { ...this.newTimer, state: ETimerState.Done } })
+    );
     // spread operator to make sure the template is not adjusted
     this.newTimer = { ...this.timerTemplate };
-    console.log(this.newTimer);
   };
 
   updateTimer = () => {
@@ -59,7 +67,7 @@ export class TimerComponent implements OnInit {
   };
 
   resetTimers = () => {
-    this.oldTimers = [];
+    this.store.dispatch(resetTimers());
   };
 
   toggleSorting = () => {

@@ -10,6 +10,9 @@ import { ListitemComponent } from './components/listitem/listitem.component';
 import { MatButtonModule } from '@angular/material/button';
 
 import { MatIconModule } from '@angular/material/icon';
+import { StoreModule } from '@ngrx/store';
+
+import { _timersReducer } from './store/timers/timers.reducers';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
+    StoreModule.forRoot({ timers: _timersReducer }),
   ],
   providers: [],
   bootstrap: [AppComponent],
